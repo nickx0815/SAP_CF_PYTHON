@@ -1,0 +1,27 @@
+---
+applications:
+- name: myapp
+  path: ./
+  host: cproPythonAI
+  domain: cfapps.us10.hana.ondemand.com
+  memory: 128M
+  buildpack: python_buildpack
+  command: python server.py
+  services:
+  - pyuaa
+- name: web
+  path: web
+  host: cproPythonAI_web
+  domain: cfapps.us10.hana.ondemand.com
+  memory: 128M
+  env:
+    destinations: >
+      [
+        {
+          "name":"myapp",
+          "url":"https://cproPythonAI.cfapps.us10.hana.ondemand.com",
+          "forwardAuthToken": true
+        }
+      ]
+  services:
+  - pyuaa
